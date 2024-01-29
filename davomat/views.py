@@ -128,8 +128,9 @@ def baza(request):
         
 
 @csrf_exempt
-def kunlik(request):
-        def birkunlik(kun):
+def kunlik(request):               
+        if request.method == 'POST':
+            kun = request.POST['kun']
             attendances = Attendance.objects.filter(date=kun)          
 
             response = HttpResponse(content_type='application/ms-excel')
@@ -156,16 +157,9 @@ def kunlik(request):
             font_style = xlwt.XFStyle()          
            
             for a in attendances:
-                son = a.id
-                marks = Mark.objects.filter(attendance=son)
-                print(marks)                
-                print(Mark.objects.all())
-                if marks:  
-                    sonlar = 0
-                    for s in marks:
-                        sonlar += 1
-                    print(f'{sonlar} jami')          
-                    for my_row in marks:                
+                marks = Mark.objects.filter(attendance=a.id)
+                if marks:        
+                    for my_row in marks:   
                         row_num = row_num + 1
                         fish = f'{my_row.worker.last_name} {my_row.worker.first_name} {my_row.worker.sharif}'
                         kun = f'{my_row.attendance.date}'
@@ -194,12 +188,8 @@ def kunlik(request):
                     wb.save(response)
                     return response
                 else:
-                    return redirect('/')
-                
-                
-        if request.method == 'POST':
-            kun = request.POST['kun']
-            birkunlik(kun)
+                    return HttpResponse('<h1>Tanlangan kun uchun malumot mavjud emas</h1>')
+                    
 
             
         
