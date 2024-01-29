@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}"> 
+    <title>Bosh sahifa</title>
+</head>
+<body>
+    {% if user.is_authenticated %} 
+
+        {% if user.is_superuser or user.lavozim == 'admin' %}  
+            
+            <!-- navbar -->
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <img src="https://avatars.mds.yandex.net/i?id=cf9c681ee34dd3a9e2c9978648c39dd30219f5b4-10766747-images-thumbs&n=13" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                        Davomat platformasi
+                    </a>
+                    <span>
+                        <a href="{% url 'logout' %}" class="btn btn-primary">Chiqish</a>
+                    </span>
+                </div>
+            </nav>
+
+            <div class="container-sm">
+                <div class="row">                   
+                   
+                    <div class="col-sm-12 col-lg-8">
+                        <div class="h2">
+                            Barcha ma`lumotlar
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-4 pt-2 text-center">
+                        <a class="btn btn-primary " href="{% url 'baza' %}">Yuklab olish</a>
+                    </div>
+                                       
+                    
+                </div>
+            </div>
+
+            <div class="container-sm">
+                <div class="row">
+                    <h2>birkunlik</h2>
+                    <a href="{% url 'kunlik' %}">Kun bo`yicha ma`lumot olish</a>
+                </div>
+            </div>
+
+
+        {% endif %}  
+        
+        {% if user.lavozim == 'tyutr' %}  
+            
+
+            <!-- navbar -->
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <img src="https://avatars.mds.yandex.net/i?id=cf9c681ee34dd3a9e2c9978648c39dd30219f5b4-10766747-images-thumbs&n=13" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                        Davomat platformasi
+                    </a>
+                    <span>
+                        <a href="{% url 'logout' %}" class="btn btn-primary">Chiqish</a>
+                    </span>
+                </div>
+            </nav>
+
+            <div class="container-sm">
+
+                <!-- Search -->
+                <div class="row text-center pt-5">
+                    <h1>Barcha yo`nalishlar</h1>
+
+                    <form class="row g-3 needs-validation" novalidate method="post">
+                        {% csrf_token %}
+                        <div class="col-sm col-lg-5">
+                            <select class="form-select" name="yonalish" aria-label="Default select example">
+                                <option selected disabled>Yo`nalish</option>
+                                {% for y in yonalish %}               
+                                    <option value="{{y.id}}">{{y.name}}</option>                    
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-sm col-lg-5">
+                            <select class="form-select" name="kurs" aria-label="Default select example">
+                                <option selected disabled>Kurs</option>
+                                {% for k in kurs %}               
+                                    <option value="{{k.id}}">{{k.name}}</option>                    
+                                {% endfor %}
+                            </select>
+                        </div>                
+
+                        <div class="col-sm col-lg-2">
+                            <button class="btn btn-primary" type="submit">Qidirish</button>
+                        </div>
+                    
+                    </form>
+                </div>
+
+                <!-- Search topgan qiymatlar -->
+                <div class="row pt-5">
+                    <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th scope="col">Yo`nalish</th>
+                            <th scope="col">Kurs</th>
+                            <th scope="col">Guruh</th>
+                            <th scope="col"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for team in data %}
+                          <tr>
+                            <td>{{team.yonalish}}</td>
+                            <td>{{team.kurs}}</td>
+                            <td>{{team.guruh}}</td>
+                            <td class="text-center">
+                                <a class="btn btn-primary" href="{% url 'detail' team.id %}">Davomat olish</a>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                </div>
+
+            </div>
+
+
+        {% endif %}  
+
+         
+        
+    {% else %}
+
+            <!-- navbar -->
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <img src="https://avatars.mds.yandex.net/i?id=cf9c681ee34dd3a9e2c9978648c39dd30219f5b4-10766747-images-thumbs&n=13" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                        Davomat platformasi
+                    </a>
+                    <span>
+                        <a href="{% url 'kirish' %}" class="btn btn-primary">Kirish</a>
+                    </span>
+                </div>
+            </nav>
+
+    {% endif%}
+
+    
+    
+    <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}"> 
+    <title>{{fakultet}} davomati</title>
+</head>
+<body>
+
+  {% if user.is_authenticated %} 
+
+    {% if user.lavozim == 'tyutr' %}  
+          
+      <!-- navbar -->
+      <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            <img src="https://avatars.mds.yandex.net/i?id=cf9c681ee34dd3a9e2c9978648c39dd30219f5b4-10766747-images-thumbs&n=13" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+            Davomat platformasi
+          </a>
+          <span>
+            <a href="{% url 'logout' %}" class="btn btn-primary">Chiqish</a>
+          </span>
+        </div>
+      </nav>
+      
+      <div class="container">
+          <div class="row">
+            <h1>{{fakultet}} davomati</h1>
+
+            <table class="table">
+              <thead>
+
+                <tr>
+                  <th scope="col">First</th>
+                  {% for vaqt in fakultet.talaba.first.baza.all %}
+                    <th scope="col">{{vaqt.fakultet.kun}}</th>
+                  {% endfor %}
+                </tr>
+
+              </thead>
+              <tbody>
+
+                <tr>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                </tr>
+                
+              </tbody>
+            </table>
+
+            {% for d in davomat %}
+              
+              {{d.kun}}
+
+            {% endfor %}
+          </div>
+      </div>
+
+    {% endif %}         
+        
+  {% else %}
+      
+    <!-- navbar -->
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="https://avatars.mds.yandex.net/i?id=cf9c681ee34dd3a9e2c9978648c39dd30219f5b4-10766747-images-thumbs&n=13" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+          Davomat platformasi
+        </a>
+        <span>
+          <a href="{% url 'kirish' %}" class="btn btn-primary">Kirish</a>
+        </span>
+      </div>
+    </nav>
+      
+  {% endif%}
+
+  <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

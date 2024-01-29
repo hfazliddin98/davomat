@@ -1,21 +1,52 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import login, logout, authenticate, get_user_model
 from django.http import HttpResponse
-import pandas as pd
-from davomat.models import Davomat
+from davomat.models import Yonalish, Kurs, Team
 
 
+
+@csrf_exempt
+def kirish(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            user.save()
+            return redirect('/')
+        else:
+            return redirect('/users/')
+
+    return render(request, 'users/login.html')
+
+
+@csrf_exempt
 def home(request):
-    davomat = Davomat.objects.all()
+    
+    yonalish = Yonalish.objects.all()
+    kurs = Kurs.objects.all()
+    try:
+        if request.method == "POST":
+            yonalish_id = request.POST['yonalish']
+            kurs_id = request.POST['kurs']
+            data = Team.objects.filter(yonalish=yonalish_id).filter(kurs=kurs_id)
+        else:
+            data = ''            
 
-    data = []
-    for d in davomat:
-        data.append(d.id, d.bor)
+    except:        
+        return HttpResponse('<h1>Ma`lumot topilmadi</h1>')    
 
-    df = pd.DataFrame(data)
+    context = {
+        'kurs':kurs,
+        'yonalish':yonalish,
+        'data':data,
+    }
+    return render(request, 'asosiy/home.html', context)
 
-    df.to_excel('test_jadval.xlsx', index=False)
 
-    df_read = pd.read_excel('test_jadval.xlsx')
-
-    print(df_read)
-    return HttpResponse('<h1>Bosh sahifa</h1>') 
+@csrf_exempt
+def logout_view(request):
+    logout(request)
+    return redirect('/')
