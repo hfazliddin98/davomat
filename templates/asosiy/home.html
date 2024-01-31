@@ -13,7 +13,7 @@
         {% if user.is_superuser or user.lavozim == 'admin' %}  
             
             <!-- navbar -->
-            <nav class="navbar bg-body-tertiary">
+            <nav class="navbar bg-body-tertiary p-4">
                 <div class="container-fluid">
                     <a class="navbar-brand h2" href="{% url 'home' %}">
                         <img src="{% static '/images/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
@@ -25,9 +25,10 @@
                 </div>
             </nav>
 
-            <div class="container-sm">
+            <div class="container">
                 <div class="row">                   
                    
+                    <h1 class="text-center p-5">Barcha kunlar davomati</h1>
                     <div class="col-sm-12 col-lg-8">
                         <div class="h2">
                             Barcha ma`lumotlar
@@ -41,21 +42,13 @@
                 </div>
             </div>
 
-            <div class="container-sm">
-                <div class="row">
-                    <h2>birkunlik</h2>
-                    <a href="{% url 'kunlik' %}">Kun bo`yicha ma`lumot olish</a>
-                </div>
-            </div>
-
-
-        {% endif %}  
+          
         
-        {% if user.lavozim == 'tyutr' %}  
+        {% elif user.lavozim == 'tyutr' %}  
             
 
             <!-- navbar -->
-            <nav class="navbar bg-body-tertiary">
+            <nav class="navbar bg-body-tertiary p-4">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="{% url 'home' %}">
                         <img src="{% static '/images/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
@@ -137,7 +130,7 @@
     {% else %}
 
             <!-- navbar -->
-            <nav class="navbar bg-body-tertiary">
+            <nav class="navbar bg-body-tertiary p-4">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="{% url 'home' %}">
                         <img src="{% static '/images/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
@@ -148,6 +141,10 @@
                     </span>
                 </div>
             </nav>
+
+            <div class="container-fluid">               
+                <img class="img-fluid" src="{% static '/images/kspi.jpg' %}" alt="">
+            </div>
 
     {% endif%}
 

@@ -14,7 +14,7 @@
     {% if user.lavozim == 'tyutr' %}  
           
       <!-- navbar -->
-      <nav class="navbar bg-body-tertiary">
+      <nav class="navbar bg-body-tertiary p-4">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
             <img src="https://avatars.mds.yandex.net/i?id=cf9c681ee34dd3a9e2c9978648c39dd30219f5b4-10766747-images-thumbs&n=13" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
@@ -65,7 +65,7 @@
   {% else %}
       
     <!-- navbar -->
-    <nav class="navbar bg-body-tertiary">
+    <nav class="navbar bg-body-tertiary p-4">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}">
           <img src="{% static '/images/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
@@ -76,6 +76,10 @@
         </span>
       </div>
     </nav>
+
+    <div class="container-fluid">
+      <img class="img-fluid" src="{% static '/images/kspi.jpg' %}" alt="">
+    </div>
       
   {% endif%}
 

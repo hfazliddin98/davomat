@@ -13,7 +13,7 @@
     {% if user.lavozim == 'tyutr' %}  
             
       <!-- navbar -->
-      <nav class="navbar bg-body-tertiary">
+      <nav class="navbar bg-body-tertiary p-4">
         <div class="container-fluid">
           <a class="navbar-brand" href="{% url 'home' %}">
             <img src="{% static '/images/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
@@ -35,16 +35,15 @@
                       
                       <th scope="col">Ism Familiya</th>
                       {% for mark in team.workers.first.marks.all %}
-                      <th style="writing-mode:vertical-rl; text-orientation:mixed" >
+                        <th style="writing-mode:vertical-rl; text-orientation:mixed" >
 
-                        {% if today == mark.attendance.date|date:"Y-m-d" %}
-                        <small><a href="{% url 'update' mark.attendance.id %}">{{mark.attendance.date|date:"Y-m-d"}}</a></small>
-                        {% else %}
-                        <small>{{mark.attendance.date|date:"Y-m-d"}}</small>
-                        {% endif %}
+                          {% if today == mark.attendance.date|date:"Y-m-d" %}
+                          <small><a href="{% url 'update' mark.attendance.id %}">{{mark.attendance.date|date:"Y-m-d"}}</a></small>
+                          {% else %}
+                          <small>{{mark.attendance.date|date:"Y-m-d"}}</small>
+                          {% endif %}                          
                         
-                      
-                      </th>
+                        </th>
                       {% endfor %}
                       
                       
@@ -55,13 +54,16 @@
                         
                       
                     <tr>
-                      <td>{{worker.first_name}} {{worker.last_name}}</td>
+                      <td>{{worker.fish}}</td>
                       {% for mark in worker.marks.all  %}
-                          {% if mark.is_attended and mark.amaliyot %}
+                          {% if mark.is_attended %}
                               <td style="height:5px; width: 5px;" ></td>
+                          {% elif mark.amaliyot %}
+                              <td style="height:5px; width: 5px; background-color: rgb(163, 32, 32);" ></td>
                           {% else %}
                               <td style="height:5px; width: 5px; background-color: black;" ></td>
-                          {% endif %}
+                          {% endif %}                          
+                          
                       {% endfor %}
                       
                     </tr>
@@ -83,7 +85,7 @@
   {% else %}
   
     <!-- navbar -->
-    <nav class="navbar bg-body-tertiary">
+    <nav class="navbar bg-body-tertiary p-4">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}">
           <img src="{% static '/images/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
@@ -94,6 +96,10 @@
         </span>
       </div>
     </nav>
+
+    <div class="container-fluid">
+      <img class="img-fluid" src="{% static '/images/kspi.jpg' %}" alt="">
+    </div>
   
   {% endif%}
 

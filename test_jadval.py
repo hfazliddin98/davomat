@@ -1,19 +1,11 @@
 import pandas as pd
-from davomat.models import Davomat
 
 
 
+df_read = pd.read_excel('talabalar.xlsx')
 
 
-davomat = Davomat.objects.all()
+data = pd.DataFrame(df_read)
 
-# data = {'Başlık 1': v1,
-#         'Başlık 2': v1}
-
-df = pd.DataFrame(davomat)
-
-df.to_excel('test_jadval.xlsx', index=False)
-
-df_read = pd.read_excel('test_jadval.xlsx')
-
-print(df_read)
+print(data)
+print(data.values)

@@ -26,10 +26,8 @@ def attendance_take(request, team_id):
             marks = []
             for worker in team.workers.all():
                 is_attended_input = request.POST.get(f"is_attended_{worker.id}")
-                is_attended = True if is_attended_input == "on" else False
-                amaliyot_input = request.POST.get(f"amaliyot_{worker.id}")
-                amaliyot = True if amaliyot_input == "on" else False
-                mark = Mark(attendance=attendance, worker=worker, is_attended=is_attended, amaliyot=amaliyot)
+                is_attended = True if is_attended_input == "on" else False                
+                mark = Mark(attendance=attendance, worker=worker, is_attended=is_attended)
                 marks.append(mark)
             
             Mark.objects.bulk_create(marks)
@@ -50,13 +48,10 @@ def attendance_update(request, attendance_id):
             marks = attendance.marks.all()
             for mark in marks:
                 is_attended_input = request.POST.get(f"is_attended_{mark.id}")
-                is_attended = True if is_attended_input == "on" else False
-                amaliyot_input = request.POST.get(f"amaliyot_{mark.id}")
-                amaliyot = True if amaliyot_input == "on" else False
+                is_attended = True if is_attended_input == "on" else False                
                 mark.is_attended = is_attended
-                mark.amaliyot = amaliyot
 
-            Mark.objects.bulk_update(marks, ['is_attended', 'amaliyot'])
+            Mark.objects.bulk_update(marks, ['is_attended'])
             return redirect("detail", attendance.team.id)
                 
         return render(request, "asosiy/update.html", {'attendance':attendance})
@@ -82,7 +77,6 @@ def baza(request):
             'Kurs',
             'Guruh',
             'Borlar',
-            'Amaliyotdagilar',                                
             'Kun'                                
         ]
 
@@ -95,104 +89,25 @@ def baza(request):
         if marks:            
             for my_row in marks:                
                 row_num = row_num + 1
-                fish = f'{my_row.worker.last_name} {my_row.worker.first_name} {my_row.worker.sharif}'
                 kun = f'{my_row.attendance.date}'
                 def bor(qiymat):
                     if qiymat == False:
                         borlar = 2
                     else:
                         borlar = ''
-                    return borlar
+                    return borlar                
                 
-                def amaliyot(qiymat):
-                    if qiymat == False:
-                        amaliyotdagilar  = 2
-                    else:
-                        amaliyotdagilar = ''
-                    return amaliyotdagilar
 
-                ws.write(row_num, 0, fish, font_style)
+                ws.write(row_num, 0, my_row.worker.fish, font_style)
                 ws.write(row_num, 1, my_row.attendance.team.yonalish.name, font_style)
                 ws.write(row_num, 2, my_row.attendance.team.kurs.name, font_style)
                 ws.write(row_num, 3, my_row.attendance.team.guruh.name, font_style)
                 ws.write(row_num, 4, bor(my_row.is_attended), font_style)
-                ws.write(row_num, 5, amaliyot(my_row.amaliyot), font_style)
-                ws.write(row_num, 6, kun, font_style)
-
-                              
+                ws.write(row_num, 5, kun, font_style)                              
 
             wb.save(response)
             return response
         else:
             return redirect('/')
         
-
-@csrf_exempt
-def kunlik(request):               
-        if request.method == 'POST':
-            kun = request.POST['kun']
-            attendances = Attendance.objects.filter(date=kun)          
-
-            response = HttpResponse(content_type='application/ms-excel')
-            response['Content-Disposition'] = 'attachment; filename="davomat.xls"'
-            wb = xlwt.Workbook(encoding='utf-8')
-            ws = wb.add_sheet("sheet1")
-            row_num = 0
-            font_style = xlwt.XFStyle()
-            font_style.font.bold = True
-
-            columns = [
-                'FISH',
-                'Yo`nalish',
-                'Kurs',
-                'Guruh',
-                'Borlar',
-                'Amaliyotdagilar',                                
-                'Kun'                                
-            ]
-
-            for col_num in range(len(columns)):
-                ws.write(row_num, col_num, columns[col_num], font_style)
-
-            font_style = xlwt.XFStyle()          
-           
-            for a in attendances:
-                marks = Mark.objects.filter(attendance=a.id)
-                if marks:        
-                    for my_row in marks:   
-                        row_num = row_num + 1
-                        fish = f'{my_row.worker.last_name} {my_row.worker.first_name} {my_row.worker.sharif}'
-                        kun = f'{my_row.attendance.date}'
-                        def bor(qiymat):
-                            if qiymat == False:
-                                borlar = 2
-                            else:
-                                borlar = ''
-                            return borlar
-                        
-                        def amaliyot(qiymat):
-                            if qiymat == True:
-                                amaliyotdagilar  = 'amaliyot'
-                            else:
-                                amaliyotdagilar = ''
-                            return amaliyotdagilar
-
-                        ws.write(row_num, 0, fish, font_style)
-                        ws.write(row_num, 1, my_row.attendance.team.yonalish.name, font_style)
-                        ws.write(row_num, 2, my_row.attendance.team.kurs.name, font_style)
-                        ws.write(row_num, 3, my_row.attendance.team.guruh.name, font_style)
-                        ws.write(row_num, 4, bor(my_row.is_attended), font_style)
-                        ws.write(row_num, 5, amaliyot(my_row.amaliyot), font_style)
-                        ws.write(row_num, 6, kun, font_style)                                    
-
-                    wb.save(response)
-                    return response
-                else:
-                    return HttpResponse('<h1>Tanlangan kun uchun malumot mavjud emas</h1>')
-                    
-
-            
-        
-
-        return render(request, 'asosiy/kunlik.html')
 

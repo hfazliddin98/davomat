@@ -58,14 +58,12 @@ class Team(models.Model):
 
 
 class Worker(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    sharif = models.CharField(max_length=70)
+    fish = models.CharField(max_length=250)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="workers")
 
 
     def __str__(self):
-        return f'{self.team} talabasi {self.last_name} {self.first_name} {self.sharif}'
+        return self.fish
 
 class Attendance(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="attendances")
@@ -80,7 +78,6 @@ class Mark(models.Model):
     attendance = models.ForeignKey(Attendance, on_delete=models.CASCADE, related_name='marks')
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE, related_name="marks")
     is_attended = models.BooleanField(default=False)
-    amaliyot = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ['attendance', 'worker']

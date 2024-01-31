@@ -14,7 +14,7 @@
     {% if user.lavozim == 'tyutr' %}  
         
       <!-- navbar -->
-      <nav class="navbar bg-body-tertiary">
+      <nav class="navbar bg-body-tertiary p-4">
         <div class="container-fluid">
           <a class="navbar-brand" href="{% url 'home' %}">
             <img src="{% static '/images/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
@@ -32,11 +32,9 @@
             <form  method="post"> {% csrf_token %} 
             <table class="table table-bordered">
                 <thead>
-                  <tr>
-                    
-                    <th scope="col">Ism Familiya</th>
-                    <th scope="col" >Davomad</th>
-                    <th scope="col" >Amaliyot</th>
+                  <tr>                    
+                    <th class="col-lg-10">Ism Familiya</th>
+                    <th class="col-lg-2" >Davomad</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -44,17 +42,12 @@
                       
                     
                   <tr>
-                    <td>{{mark.worker.first_name}} {{mark.worker.last_name}}</td>
+                    <td>{{mark.worker.fish}}</td>
                     <td>
                         <div class="form-check">
                             <input name="is_attended_{{mark.id}}" class="form-check-input" type="checkbox"  id="flexCheckChecked" {% if mark.is_attended %} checked {% endif %}>
                         </div>
-                    </td>
-                    <td>
-                      <div class="form-check">
-                          <input name="amaliyot_{{mark.id}}" class="form-check-input" type="checkbox"  id="flexCheckChecked" {% if mark.amaliyot %} {% endif %}>
-                      </div>
-                  </td>
+                    </td>                    
                   </tr>
                   {% endfor %}
                 
@@ -71,7 +64,7 @@
   {% else %}
   
     <!-- navbar -->
-    <nav class="navbar bg-body-tertiary">
+    <nav class="navbar bg-body-tertiary p-4">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}">
           <img src="{% static '/images/logo.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
@@ -82,6 +75,10 @@
         </span>
       </div>
     </nav>
+
+    <div class="container-fluid">
+      <img class="img-fluid" src="{% static '/images/kspi.jpg' %}" alt="">
+    </div>
   
   {% endif%}
 

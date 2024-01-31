@@ -17,7 +17,7 @@ def kirish(request):
             user.save()
             return redirect('/')
         else:
-            return redirect('/users/')
+            return redirect('/kirish/')
 
     return render(request, 'users/login.html')
 

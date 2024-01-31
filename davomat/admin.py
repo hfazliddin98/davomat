@@ -17,7 +17,7 @@ class AttendanceAdmin(admin.ModelAdmin):
 
 @admin.register(Worker)
 class WorkerAdmin(admin.ModelAdmin):
-    list_display = ['id', 'first_name', 'last_name', 'sharif', 'team']
+    list_display = ['id', 'fish', 'team']
 
 @admin.register(Mark)
 class MarkAdmin(admin.ModelAdmin):
