@@ -91,7 +91,7 @@ def baza(request):
                 row_num = row_num + 1
                 kun = f'{my_row.attendance.date}'
                 def bor(qiymat):
-                    if qiymat == False:
+                    if qiymat == True:
                         borlar = 2
                     else:
                         borlar = ''
