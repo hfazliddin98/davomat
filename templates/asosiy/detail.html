@@ -57,11 +57,9 @@
                       <td>{{worker.fish}}</td>
                       {% for mark in worker.marks.all  %}
                           {% if mark.is_attended %}
-                              <td style="height:5px; width: 5px;" ></td>
-                          {% elif mark.amaliyot %}
-                              <td style="height:5px; width: 5px; background-color: rgb(163, 32, 32);" ></td>
+                              <td style="height:5px; width: 5px; background-color: black;" ></td>                          
                           {% else %}
-                              <td style="height:5px; width: 5px; background-color: black;" ></td>
+                              <td style="height:5px; width: 5px;" ></td>
                           {% endif %}                          
                           
                       {% endfor %}
