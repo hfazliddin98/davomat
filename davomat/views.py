@@ -89,7 +89,7 @@ def baza(request):
             mark_son += 1
 
 
-        marks = Mark.objects.all()[mark_son-4000:mark_son]
+        marks = Mark.objects.all()[mark_son-1000:mark_son]
         if marks:            
             for my_row in marks:                
                 row_num = row_num + 1
