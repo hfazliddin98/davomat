@@ -84,8 +84,12 @@ def baza(request):
             ws.write(row_num, col_num, columns[col_num], font_style)
 
         font_style = xlwt.XFStyle()
+        mark_son = 0
+        for t in Mark.objects.all():
+            mark_son += 1
 
-        marks = Mark.objects.all()
+
+        marks = Mark.objects.all()[mark_son-4000:mark_son]
         if marks:            
             for my_row in marks:                
                 row_num = row_num + 1
